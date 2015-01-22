@@ -1,15 +1,46 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These functions provide an example of using cache 
+## to store a data vaule for use at a later time.
 
-## Write a short comment describing this function
+## makeCachdMatris is a function that creates a
+## list of functions and data stores in cache
+## for retrieval by the cacheSolve function.
 
-makeCacheMatrix <- function(x = matrix()) {
+## input to the function is a matrix for which the 
+## inverse is desired.
 
-}
+makeCachdMatrix <- function(x = matrix()) 
+    {
+    m <- NULL
+    set <- function(y) 
+        {
+        x <<- y
+        m <<- NULL
+        }
+    get <- function() x
+    setinverse <- function(solve) m <<- solve
+    getinverse <- function() m
+    print(getinverse)
+    list(set = set, get = get,
+        setinverse = setinverse,
+        getinverse = getinverse)
+    }
 
 
-## Write a short comment describing this function
+## cacheSolve(x) returns the inverse matrix of 
+## of the matrix input into the makeCachdMAtrix
+## function.
+
+## input to the function is the makeCachdMAtrix
+## function with the original matrix data.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  m <- x$getinverse()
+  if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data, ...)
+  x$setinverse(m)
+  m
 }
